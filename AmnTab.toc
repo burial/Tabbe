@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Title: AmnTab
 ## Notes: Amnith's Tab Nick Completer
 ## Author: Amnith
