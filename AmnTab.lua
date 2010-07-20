@@ -1,6 +1,6 @@
 AmnTabDB = {}
 local tablist = {}
-local e = ChatFrameEditBox
+local e = ChatFrame1EditBox
 local showOffline = { ["friends"] = nil, ["guild"] = nil }
 
 local AmnTab = CreateFrame"Frame"
@@ -23,6 +23,15 @@ local function add(name)
 		if n == name then return end
 	end
 	table.insert(tablist, name)
+end
+
+local function GetCurrentChatFrame() 
+	for i = 1, 10 do 
+		if getglobal("ChatFrame"..i.."EditBox"):GetText() ~= "" then
+			e = getglobal("ChatFrame"..i.."EditBox")
+			return
+		end
+	end
 end
 
 local function UpdateTab()
@@ -106,6 +115,7 @@ end
 -- Hooked on a feeling...
 local ctp = ChatEdit_CustomTabPressed
 function ChatEdit_CustomTabPressed()
+	GetCurrentChatFrame()
 	CompleteTab()
 	ctp()
 end
