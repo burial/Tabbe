@@ -19,10 +19,9 @@ end)
 
 -- Should not get very sloppy in big guilds. 
 local function add(name)
-	for _, n in pairs(tablist) do
-		if n == name then return end
+	if not tablist[name] then
+		table.insert(tablist, name)
 	end
-	table.insert(tablist, name)
 end
 
 local function GetCurrentChatFrame() 
