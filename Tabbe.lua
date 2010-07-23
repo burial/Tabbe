@@ -64,7 +64,6 @@ local function UpdateTab()
 		end
 end
 
--- Seen it in AceTab-2.0? NOWAI. 
 local function GetPosition()
 	local pos
 	if e:GetText() == "" then 
@@ -77,7 +76,6 @@ local function GetPosition()
 	return pos
 end
 
--- Seen it in AceTab-2.0? NOWAI. 
 local function CompleteTab()
  	local pos = GetPosition()
 	if not pos then 
