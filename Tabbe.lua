@@ -38,7 +38,9 @@ local function UpdateTab()
 	
 		for i = 1, GetNumFriends() do
 			local name, _, _, _, online, _ = GetFriendInfo(i)
-			if online or showOffline["friends"] then add(name) end
+			if online or showOffline["friends"] then 
+				add(name) 
+			end
 		end
 		if IsInGuild() then 
 			for i = 1, GetNumGuildMembers(showOffline["guild"]) do
