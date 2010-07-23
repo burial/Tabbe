@@ -121,24 +121,42 @@ end
 
 -- Ugly, but what to do to be user friendly.
 SlashCmdList["AMNTAB"] = function(cmd)
+	local shown, hidden = "e6cc80Shown", "ff0000Hidden"
+	local visibility
+
 	if cmd == "friends" then 
 		showOffline["friends"] = not showOffline["friends"]
 		AmnTabDB.friends = showOffline["friends"]
-		local visibility
-		if showOffline["friends"] then visibility = "e6cc80shown" else visibility = "ff0000hidden" end
+		if showOffline["friends"] then 
+			visibility = shown
+		else 
+			visibility = hidden
+		end
 		ChatFrame1:AddMessage(string.format("|cff33ff99AmnTab|r: Offline friends are now |cff%s|r.", visibility))
 	elseif cmd == "guild" then
 		showOffline["guild"] = not showOffline["guild"]
 		AmnTabDB.guild = showOffline["guild"]
-		local visibility
-		if showOffline["guild"] then visibility = "e6cc80shown" else visibility = "ff0000hidden" end
+		if showOffline["guild"] then 
+			visibility = shown 
+		else 
+			visibility = hidden
+		end
 		ChatFrame1:AddMessage(string.format("|cff33ff99AmnTab|r: Offline guild members are now |cff%s|r.", visibility))
 	else
-		local visibility
 		ChatFrame1:AddMessage"|cff33ff99AmnTab|r: /amntab"
-		if showOffline["guild"] then visibility = "e6cc80Shown" else visibility = "ff0000Hidden" end
+
+		if showOffline["guild"] then 
+			visibility = shown
+		else 
+			visibility = hidden
+		end
 		ChatFrame1:AddMessage(string.format("- |cff33ff99guild|r: Toggles between showing offline guild members. [|cff%s|r]", visibility))
-		if showOffline["friends"] then visibility = "e6cc80Shown" else visibility = "ff0000Hidden" end
+		
+		if showOffline["friends"] then 
+			visibility = shown
+		else 
+			visibility = hidden
+		end
 		ChatFrame1:AddMessage(string.format("- |cff33ff99friends|r: Toggles between showing offline friends. [|cff%s|r]", visibility))
 	end
 end
