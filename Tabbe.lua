@@ -43,7 +43,9 @@ local function UpdateTab()
 		if IsInGuild() then 
 			for i = 1, GetNumGuildMembers(showOffline["guild"]) do
 				local name, _, _, _, _, _, _, _, online, _ = GetGuildRosterInfo(i)
-				if online or showOffline["guild"] then add(name) end
+				if online or showOffline["guild"] then 
+					add(name)
+				end
 			end
 		end
 		if UnitInRaid"player" then
