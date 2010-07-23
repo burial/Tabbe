@@ -123,6 +123,9 @@ end
 SlashCmdList["TABBE"] = function(cmd)
 	local shown, hidden = "e6cc80Shown", "ff0000Hidden"
 	local visibility
+	
+	-- Ignore casing.
+	cmd = string.lower(cmd)
 
 	if cmd == "friends" then 
 		showOffline["friends"] = not showOffline["friends"]
