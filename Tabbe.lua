@@ -65,7 +65,9 @@ end
 -- Seen it in AceTab-2.0? NOWAI. 
 local function GetPosition()
 	local pos
-	if e:GetText() == "" then return end
+	if e:GetText() == "" then 
+		return 
+	end
 	e:Insert"\255"
 	pos = e:GetText():find("\255", 1) - 1
 	e:HighlightText(pos, pos + 1)
@@ -76,15 +78,22 @@ end
 -- Seen it in AceTab-2.0? NOWAI. 
 local function CompleteTab()
  	local pos = GetPosition()
-	if not pos then return end
+	if not pos then 
+		return 
+	end
 
 	local full = e:GetText()
 	local text = full:sub(1, pos)
 	local left = text:sub(1, pos):find"%w+$"
 	left = left and left - 1 or pos
-	if not left or left == 1 and text:sub(1, 1) == "/" then return end
+
+	if not left or left == 1 and text:sub(1, 1) == "/" then 
+		return 
+	end
 	local word = text:sub(left, pos):match"(%w+)"
-	if not full:find"%a" or not word then return end
+	if not full:find"%a" or not word then 
+		return 
+	end
 
 	UpdateTab()
 	
@@ -109,7 +118,9 @@ local function CompleteTab()
 	elseif #matches == 1 then 
 		e:HighlightText(pos - word:len(), pos)
 		e:Insert(matches[1])
-		if pos-word:len() == 0 then e:Insert(": ") end
+		if pos-word:len() == 0 then 
+			e:Insert(": ") 
+		end
 	end
 end
 
