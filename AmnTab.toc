@@ -1,7 +1,0 @@
-## Interface: 30300
-## Title: AmnTab
-## Notes: Amnith's Tab Nick Completer
-## Author: Amnith
-## Version: 1.0
-## SavedVariables: AmnTabDB
-AmnTab.lua

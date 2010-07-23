@@ -1,20 +1,20 @@
-AmnTabDB = {}
+TabbeDB = {}
 local tablist = {}
 local e = ChatFrame1EditBox
 local showOffline = { ["friends"] = nil, ["guild"] = nil }
 
-local AmnTab = CreateFrame"Frame"
-AmnTab:RegisterEvent"PLAYER_LOGIN"
-AmnTab:SetScript("OnEvent", function(self)
-	if AmnTabDB.guild == nil then 
-		AmnTabDB.guild = false
+local Tabbe = CreateFrame"Frame"
+Tabbe:RegisterEvent"PLAYER_LOGIN"
+Tabbe:SetScript("OnEvent", function(self)
+	if TabbeDB.guild == nil then 
+		TabbeDB.guild = false
 	end
 
-	if AmnTabDB.friends == nil then 
-		AmnTabDB.friends = false
+	if TabbeDB.friends == nil then 
+		TabbeDB.friends = false
 	end
-	showOffline["friends"] = AmnTabDB.friends
-	showOffline["guild"] = AmnTabDB.guild
+	showOffline["friends"] = TabbeDB.friends
+	showOffline["guild"] = TabbeDB.guild
 end)
 
 -- Should not get very sloppy in big guilds. 
@@ -120,30 +120,30 @@ function ChatEdit_CustomTabPressed()
 end
 
 -- Ugly, but what to do to be user friendly.
-SlashCmdList["AMNTAB"] = function(cmd)
+SlashCmdList["TABBE"] = function(cmd)
 	local shown, hidden = "e6cc80Shown", "ff0000Hidden"
 	local visibility
 
 	if cmd == "friends" then 
 		showOffline["friends"] = not showOffline["friends"]
-		AmnTabDB.friends = showOffline["friends"]
+		TabbeDB.friends = showOffline["friends"]
 		if showOffline["friends"] then 
 			visibility = shown
 		else 
 			visibility = hidden
 		end
-		ChatFrame1:AddMessage(string.format("|cff33ff99AmnTab|r: Offline friends are now |cff%s|r.", visibility))
+		ChatFrame1:AddMessage(string.format("|cff33ff99Tabbe|r: Offline friends are now |cff%s|r.", visibility))
 	elseif cmd == "guild" then
 		showOffline["guild"] = not showOffline["guild"]
-		AmnTabDB.guild = showOffline["guild"]
+		TabbeDB.guild = showOffline["guild"]
 		if showOffline["guild"] then 
 			visibility = shown 
 		else 
 			visibility = hidden
 		end
-		ChatFrame1:AddMessage(string.format("|cff33ff99AmnTab|r: Offline guild members are now |cff%s|r.", visibility))
+		ChatFrame1:AddMessage(string.format("|cff33ff99Tabbe|r: Offline guild members are now |cff%s|r.", visibility))
 	else
-		ChatFrame1:AddMessage"|cff33ff99AmnTab|r: /amntab"
+		ChatFrame1:AddMessage"|cff33ff99Tabbe|r: /tabbe"
 
 		if showOffline["guild"] then 
 			visibility = shown
@@ -160,4 +160,4 @@ SlashCmdList["AMNTAB"] = function(cmd)
 		ChatFrame1:AddMessage(string.format("- |cff33ff99friends|r: Toggles between showing offline friends. [|cff%s|r]", visibility))
 	end
 end
-SLASH_AMNTAB1 = "/amntab"
+SLASH_TABBE1 = "/tabbe"

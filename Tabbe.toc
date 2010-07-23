@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: Tabbe 
+## Notes: Simple tab completion
+## Author: Amnith
+## Version: 3.3
+## SavedVariables: TabbeDB
+Tabbe.lua
