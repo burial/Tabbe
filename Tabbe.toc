@@ -2,6 +2,6 @@
 ## Title: Tabbe 
 ## Notes: Simple tab completion
 ## Author: Amnith
-## Version: 3.3
+## Version: 4.0
 ## SavedVariables: TabbeDB
 Tabbe.lua
