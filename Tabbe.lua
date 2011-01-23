@@ -39,27 +39,27 @@ local function UpdateTab()
 		for i = 1, GetNumFriends() do
 			local name, _, _, _, online, _ = GetFriendInfo(i)
 			if online or showOffline["friends"] then 
-				add(name) 
+				tablist[name] = true
 			end
 		end
 		if IsInGuild() then 
 			for i = 1, GetNumGuildMembers(showOffline["guild"]) do
 				local name, _, _, _, _, _, _, _, online, _ = GetGuildRosterInfo(i)
 				if online or showOffline["guild"] then 
-					add(name)
+					tablist[name] = true
 				end
 			end
 		end
 		if UnitInRaid"player" then
 			for i = 1, GetNumRaidMembers() do
 				local name, _, _, _, _, _, _, _, _ = GetRaidRosterInfo(i)
-				add(name) 
+				tablist[name] = true
 			end
 		end
 		if UnitInParty"player" then
 			for i = 1, GetNumPartyMembers() do
 				local name = UnitName("party"..i)
-				add(name)
+				tablist[name] = true
 			end
 		end
 end
@@ -99,7 +99,7 @@ local function CompleteTab()
 	
 	local matches = {}
 	local i = 1
-	for _, s in pairs(tablist) do
+	for s, _ in pairs(tablist) do
 		if s:lower():find(word:lower(), 1, 1) == 1 then
 			table.insert(matches, i, s)
 			i = i + 1
