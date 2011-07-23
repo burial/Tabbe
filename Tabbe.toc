@@ -3,5 +3,5 @@
 ## Notes: Simple tab completion
 ## Author: Amnith
 ## Version: 4.0
-## SavedVariables: TabbeDB
+
 Tabbe.lua
