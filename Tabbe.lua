@@ -59,7 +59,6 @@ local function CompleteTab()
 
   UpdateTab()
 
-  local i = 1
   wipe(matches)
 
   for s in pairs(tablist) do
@@ -68,15 +67,8 @@ local function CompleteTab()
     end
   end
   
-  if #matches > 1 then 
-    local m = ""
-    for i = 1, #matches do
-      m = m .. matches[i]
-      if i ~= #matches then
-        m = m .. ", "
-      end
-    end
-    ChatFrame1:AddMessage("|cff99cc33Potential matches:|r " .. m)
+  if #matches > 1 then
+    ChatFrame1:AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))
   elseif #matches == 1 then 
     e:HighlightText(pos - word:len(), pos)
     e:Insert(matches[1])
