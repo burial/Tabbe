@@ -1,6 +1,16 @@
+local e -- active chat frame
+local me = UnitName("player")
+
 local matches = {}
-local tablist = {}
-local e
+local tablist = setmetatable({}, {
+  __newindex = function(t, i, v)
+    if i == me then
+      rawset(t, i, nil)
+    else
+      rawset(t, strsplit("-", i), v)
+    end
+  end,
+})
 
 local function UpdateTab()
   wipe(tablist)
@@ -78,16 +88,21 @@ local function CompleteTab()
   end
 end
 
-local old = ChatEdit_CustomTabPressed
-function ChatEdit_CustomTabPressed(...)
-  for i = 1, 10 do
-    local frame = _G["ChatFrame" .. i .. "EditBox"]
-    if frame:GetText() ~= "" then
-      e = frame
-      break
+do
+  local OldHandler = ChatEdit_CustomTabPressed
+  function ChatEdit_CustomTabPressed(...)
+    for i = 1, 10 do
+      local frame = _G["ChatFrame" .. i .. "EditBox"]
+      if frame:GetText() ~= "" then
+        e = frame
+        break
+      end
+    end
+
+    CompleteTab()
+
+    if OldHandler then
+      OldHandler(...)
     end
   end
-
-  CompleteTab()
-  old(...)
 end
