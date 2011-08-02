@@ -82,9 +82,6 @@ local function CompleteTab()
   elseif #matches == 1 then 
     e:HighlightText(pos - word:len(), pos)
     e:Insert(matches[1])
-    if pos - word:len() == 0 then 
-      e:Insert(", ") 
-    end
   end
 end
 
