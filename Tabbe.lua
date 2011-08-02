@@ -1,4 +1,4 @@
-local e -- active chat frame
+local e = ChatFrame1EditBox -- active chat frame
 local me = UnitName("player")
 
 local matches = {}
