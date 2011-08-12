@@ -1,7 +1,7 @@
-## Interface: 40000
-## Title: Tabbe 
+## Interface: 40200
+## Title: Tabbe (burial edit)
 ## Notes: Simple tab completion
 ## Author: Amnith
 ## Version: 4.0
 
-Tabbe.lua
+main.lua
