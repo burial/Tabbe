@@ -74,7 +74,5 @@ ChatEdit_CustomTabPressed = (...) ->
       activeEditbox = editbox
       break
 
-  return nil if not activeEditbox
-
-  CompleteTab!
+  CompleteTab! if activeEditbox
   OldHandler(...) if OldHandler

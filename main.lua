@@ -87,10 +87,9 @@ ChatEdit_CustomTabPressed = function(...)
       break
     end
   end
-  if not activeEditbox then
-    return nil
+  if activeEditbox then
+    CompleteTab()
   end
-  CompleteTab()
   if OldHandler then
     return OldHandler(...)
   end
