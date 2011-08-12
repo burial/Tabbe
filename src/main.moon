@@ -1,7 +1,5 @@
 export ChatEdit_CustomTabPressed
 
-activeEditbox = ChatFrame1EditBox
-
 GetNameList = ->
   nameList = {}
   
@@ -24,22 +22,22 @@ GetNameList = ->
 
   nameList
 
-GetPosition = ->
-  return nil if activeEditbox\GetText! == ""
+GetPosition = (editbox) ->
+  return nil if editbox\GetText! == ""
 
-  activeEditbox\Insert("\255")
-  pos = activeEditbox\GetText!\find("\255", 1) - 1
+  editbox\Insert("\255")
+  pos = editbox\GetText!\find("\255", 1) - 1
 
-  activeEditbox\HighlightText(pos, pos + 1)
-  activeEditbox\Insert("\0")
+  editbox\HighlightText(pos, pos + 1)
+  editbox\Insert("\0")
 
   pos
 
-CompleteTab = ->
-  pos = GetPosition!
+CompleteTab = (editbox) ->
+  pos = GetPosition(editbox)
   return nil if not pos
 
-  full = activeEditbox\GetText!
+  full = editbox\GetText!
   text = full\sub(1, pos)
   left = text\sub(1, pos)\find("%w+$")
   left = if left then left - 1 else pos
@@ -56,13 +54,15 @@ CompleteTab = ->
   for name in pairs nameList
     tinsert(matches, name) if name\lower!\sub(0, #word) == lowered
 
-  if #matches > 1
-    ChatFrame1\AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))
-  elseif #matches == 1
-    activeEditbox\HighlightText(pos - word\len(), pos)
-    activeEditbox\Insert(matches[1])
+  if #matches == 1
+    editbox\HighlightText(pos - word\len(), pos)
+    editbox\Insert(matches[1])
     true
-  false
+  elseif #matches > 1
+    ChatFrame1\AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))
+    false
+  else
+    false
 
 OldHandler = ChatEdit_CustomTabPressed
 ChatEdit_CustomTabPressed = (...) ->
@@ -74,5 +74,5 @@ ChatEdit_CustomTabPressed = (...) ->
       activeEditbox = editbox
       break
 
-  CompleteTab! if activeEditbox
+  CompleteTab(activeEditbox) if activeEditbox
   OldHandler(...) if OldHandler

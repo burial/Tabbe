@@ -1,4 +1,3 @@
-local activeEditbox = ChatFrame1EditBox
 local GetNameList
 GetNameList = function()
   local nameList = { }
@@ -29,23 +28,23 @@ GetNameList = function()
   return nameList
 end
 local GetPosition
-GetPosition = function()
-  if activeEditbox:GetText() == "" then
+GetPosition = function(editbox)
+  if editbox:GetText() == "" then
     return nil
   end
-  activeEditbox:Insert("\255")
-  local pos = activeEditbox:GetText():find("\255", 1) - 1
-  activeEditbox:HighlightText(pos, pos + 1)
-  activeEditbox:Insert("\0")
+  editbox:Insert("\255")
+  local pos = editbox:GetText():find("\255", 1) - 1
+  editbox:HighlightText(pos, pos + 1)
+  editbox:Insert("\0")
   return pos
 end
 local CompleteTab
-CompleteTab = function()
-  local pos = GetPosition()
+CompleteTab = function(editbox)
+  local pos = GetPosition(editbox)
   if not pos then
     return nil
   end
-  local full = activeEditbox:GetText()
+  local full = editbox:GetText()
   local text = full:sub(1, pos)
   local left = text:sub(1, pos):find("%w+$")
   if left then
@@ -68,18 +67,20 @@ CompleteTab = function()
       tinsert(matches, name)
     end
   end
-  if #matches > 1 then
+  if #matches == 1 then
+    editbox:HighlightText(pos - word:len(), pos)
+    editbox:Insert(matches[1])
+    return true
+  elseif #matches > 1 then
     ChatFrame1:AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))
-  elseif #matches == 1 then
-    activeEditbox:HighlightText(pos - word:len(), pos)
-    activeEditbox:Insert(matches[1])
-    local _ = true
+    return false
+  else
+    return false
   end
-  return false
 end
 local OldHandler = ChatEdit_CustomTabPressed
 ChatEdit_CustomTabPressed = function(...)
-  activeEditbox = nil
+  local activeEditbox = nil
   for index, frame in pairs(CHAT_FRAMES) do
     local editbox = _G[frame .. "EditBox"]
     if editbox:GetText() ~= "" then
@@ -88,7 +89,7 @@ ChatEdit_CustomTabPressed = function(...)
     end
   end
   if activeEditbox then
-    CompleteTab()
+    CompleteTab(activeEditbox)
   end
   if OldHandler then
     return OldHandler(...)
