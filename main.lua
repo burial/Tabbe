@@ -1,3 +1,4 @@
+-- Compiled from MoonScript at 1313213777
 local GetNameList
 GetNameList = function()
   local nameList = { }
@@ -21,7 +22,7 @@ GetNameList = function()
     end
   end
   if GetNumPartyMembers() > 0 then
-    for i = 1, GetNumPartyMembers() do
+    for index = 1, GetNumPartyMembers() do
       nameList[UnitName("party" .. index)] = true
     end
   end

@@ -17,7 +17,7 @@ GetNameList = ->
       nameList[GetRaidRosterInfo(index)] = true
 
   if GetNumPartyMembers! > 0
-    for i = 1, GetNumPartyMembers!
+    for index = 1, GetNumPartyMembers!
       nameList[UnitName("party" .. index)] = true
 
   nameList
