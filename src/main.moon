@@ -13,7 +13,7 @@ GetNameList = ->
       nameList[name] = true if online
 
   if GetNumRaidMembers! > 0
-    for imdex = 1, GetNumRaidMembers!
+    for index = 1, GetNumRaidMembers!
       nameList[GetRaidRosterInfo(index)] = true
 
   if GetNumPartyMembers! > 0

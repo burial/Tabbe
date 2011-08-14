@@ -1,4 +1,4 @@
--- Compiled from MoonScript at 1313213777
+-- Compiled from MoonScript at 1313284448
 local GetNameList
 GetNameList = function()
   local nameList = { }
@@ -17,7 +17,7 @@ GetNameList = function()
     end
   end
   if GetNumRaidMembers() > 0 then
-    for imdex = 1, GetNumRaidMembers() do
+    for index = 1, GetNumRaidMembers() do
       nameList[GetRaidRosterInfo(index)] = true
     end
   end
