@@ -25,6 +25,12 @@ GetNameList = ->
     for index = 1, GetNumPartyMembers!
       nameList[UnitName("party" .. index)] = true
 
+  target = UnitName("target")
+  nameList[target] = true if target
+
+  focus = UnitName("focus")
+  nameList[focus] = true if focus
+
   nameList
 
 GetPosition = (editbox) ->

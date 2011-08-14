@@ -1,4 +1,4 @@
--- Compiled from MoonScript at 1313285259
+-- Compiled from MoonScript at 1313287788
 local me = UnitName("player")
 local nameList = setmetatable({ }, {
   __newindex = function(self, index, value)
@@ -31,6 +31,14 @@ GetNameList = function()
     for index = 1, GetNumPartyMembers() do
       nameList[UnitName("party" .. index)] = true
     end
+  end
+  local target = UnitName("target")
+  if target then
+    nameList[target] = true
+  end
+  local focus = UnitName("focus")
+  if focus then
+    nameList[focus] = true
   end
   return nameList
 end
