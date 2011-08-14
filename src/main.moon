@@ -1,7 +1,12 @@
 export ChatEdit_CustomTabPressed
 
+me = UnitName("player")
+nameList = setmetatable({}, {
+  __newindex: (index, value) => rawset(self, strsplit("-", index), value)
+})
+
 GetNameList = ->
-  nameList = {}
+  wipe(nameList)
   
   for index = 1, GetNumFriends!
     name, _, _, _, online = GetFriendInfo(index)

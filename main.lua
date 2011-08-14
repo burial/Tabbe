@@ -1,7 +1,13 @@
--- Compiled from MoonScript at 1313284448
+-- Compiled from MoonScript at 1313285259
+local me = UnitName("player")
+local nameList = setmetatable({ }, {
+  __newindex = function(self, index, value)
+    return rawset(self, strsplit("-", index), value)
+  end
+})
 local GetNameList
 GetNameList = function()
-  local nameList = { }
+  wipe(nameList)
   for index = 1, GetNumFriends() do
     local name, _, _, _, online = GetFriendInfo(index)
     if online then
@@ -60,7 +66,7 @@ CompleteTab = function(editbox)
   if not full:find("%a") or not word then
     return nil
   end
-  local nameList = GetNameList()
+  nameList = GetNameList()
   local matches = { }
   local lowered = word:lower()
   for name in pairs(nameList) do
