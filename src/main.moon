@@ -1,7 +1,5 @@
 export ChatEdit_CustomTabPressed
 
-me = UnitName("player")
-
 mt = __newindex: (index, value) => rawset(self, strsplit("-", index), value)
 onlines = setmetatable({}, mt)
 offlines = setmetatable({}, mt)

@@ -1,4 +1,3 @@
-local me = UnitName("player")
 local mt = {
   __newindex = function(self, index, value)
     return rawset(self, strsplit("-", index), value)
