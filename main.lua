@@ -23,8 +23,6 @@ GetNameList = function()
       local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(index)
       if online then
         onlines[name] = true
-      else
-        offlines[name] = true
       end
     end
   end

@@ -24,8 +24,8 @@ GetNameList = ->
 
       if online
         onlines[name] = true
-      else
-        offlines[name] = true
+      -- else
+      --  offlines[name] = true
 
   if GetNumRaidMembers! > 0
     for index = 1, GetNumRaidMembers!
