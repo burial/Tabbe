@@ -1,46 +1,51 @@
--- Compiled from MoonScript at 1313287788
 local me = UnitName("player")
-local nameList = setmetatable({ }, {
+local mt = {
   __newindex = function(self, index, value)
     return rawset(self, strsplit("-", index), value)
   end
-})
+}
+local onlines = setmetatable({ }, mt)
+local offlines = setmetatable({ }, mt)
 local GetNameList
 GetNameList = function()
-  wipe(nameList)
+  wipe(onlines)
+  wipe(offlines)
   for index = 1, GetNumFriends() do
     local name, _, _, _, online = GetFriendInfo(index)
     if online then
-      nameList[name] = true
+      onlines[name] = true
+    else
+      offlines[name] = true
     end
   end
   if IsInGuild() then
     for index = 1, GetNumGuildMembers() do
       local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(index)
       if online then
-        nameList[name] = true
+        onlines[name] = true
+      else
+        offlines[name] = true
       end
     end
   end
   if GetNumRaidMembers() > 0 then
     for index = 1, GetNumRaidMembers() do
-      nameList[GetRaidRosterInfo(index)] = true
+      onlines[GetRaidRosterInfo(index)] = true
     end
   end
   if GetNumPartyMembers() > 0 then
     for index = 1, GetNumPartyMembers() do
-      nameList[UnitName("party" .. index)] = true
+      onlines[UnitName("party" .. index)] = true
     end
   end
   local target = UnitName("target")
   if target then
-    nameList[target] = true
+    onlines[target] = true
   end
   local focus = UnitName("focus")
   if focus then
-    nameList[focus] = true
+    onlines[focus] = true
   end
-  return nameList
 end
 local GetPosition
 GetPosition = function(editbox)
@@ -74,17 +79,30 @@ CompleteTab = function(editbox)
   if not full:find("%a") or not word then
     return nil
   end
-  nameList = GetNameList()
+  GetNameList()
   local matches = { }
   local lowered = word:lower()
-  for name in pairs(nameList) do
+  for name in pairs(onlines) do
     if name:lower():sub(0, #word) == lowered then
       tinsert(matches, name)
     end
   end
+  if IsShiftKeyDown() then
+    for name in pairs(offlines) do
+      if name:lower():sub(0, #word) == lowered then
+        tinsert(matches, name)
+      end
+    end
+  end
   if #matches == 1 then
+    local name
+    if word == lowered then
+      name = matches[1]:lower()
+    else
+      name = matches[1]
+    end
     editbox:HighlightText(pos - word:len(), pos)
-    editbox:Insert(matches[1])
+    editbox:Insert(name)
     return true
   elseif #matches > 1 then
     ChatFrame1:AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))

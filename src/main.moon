@@ -1,37 +1,45 @@
 export ChatEdit_CustomTabPressed
 
 me = UnitName("player")
-nameList = setmetatable({}, {
-  __newindex: (index, value) => rawset(self, strsplit("-", index), value)
-})
+
+mt = __newindex: (index, value) => rawset(self, strsplit("-", index), value)
+onlines = setmetatable({}, mt)
+offlines = setmetatable({}, mt)
 
 GetNameList = ->
-  wipe(nameList)
+  wipe(onlines)
+  wipe(offlines)
   
   for index = 1, GetNumFriends!
     name, _, _, _, online = GetFriendInfo(index)
-    nameList[name] = true if online
+
+    if online
+      onlines[name] = true
+    else
+      offlines[name] = true
 
   if IsInGuild()
     for index = 1, GetNumGuildMembers!
       name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(index)
-      nameList[name] = true if online
+
+      if online
+        onlines[name] = true
+      else
+        offlines[name] = true
 
   if GetNumRaidMembers! > 0
     for index = 1, GetNumRaidMembers!
-      nameList[GetRaidRosterInfo(index)] = true
+      onlines[GetRaidRosterInfo(index)] = true
 
   if GetNumPartyMembers! > 0
     for index = 1, GetNumPartyMembers!
-      nameList[UnitName("party" .. index)] = true
+      onlines[UnitName("party" .. index)] = true
 
   target = UnitName("target")
-  nameList[target] = true if target
+  onlines[target] = true if target
 
   focus = UnitName("focus")
-  nameList[focus] = true if focus
-
-  nameList
+  onlines[focus] = true if focus
 
 GetPosition = (editbox) ->
   return nil if editbox\GetText! == ""
@@ -58,16 +66,26 @@ CompleteTab = (editbox) ->
   word = text\sub(left, pos)\match("(%w+)")
   return nil if not full\find("%a") or not word
 
-  nameList = GetNameList!
-  matches = {}
+  GetNameList!
 
+  matches = {}
   lowered = word\lower!
-  for name in pairs nameList
+
+  for name in pairs(onlines)
     tinsert(matches, name) if name\lower!\sub(0, #word) == lowered
 
+  if IsShiftKeyDown!
+    for name in pairs(offlines)
+      tinsert(matches, name) if name\lower!\sub(0, #word) == lowered
+
   if #matches == 1
+    name = if word == lowered
+      matches[1]\lower!
+    else
+      matches[1]
+
     editbox\HighlightText(pos - word\len(), pos)
-    editbox\Insert(matches[1])
+    editbox\Insert(name)
     true
   elseif #matches > 1
     ChatFrame1\AddMessage("|cff99cc33Potential matches:|r " .. table.concat(matches, ", "))
@@ -81,7 +99,7 @@ ChatEdit_CustomTabPressed = (...) ->
 
   for index, frame in pairs CHAT_FRAMES
     editbox = _G[frame .. "EditBox"]
-    if editbox\GetText() != "" then
+    if editbox\GetText! != "" then
       activeEditbox = editbox
       break
 
