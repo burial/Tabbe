@@ -5,8 +5,8 @@ onlines = setmetatable({}, mt)
 offlines = setmetatable({}, mt)
 
 GetNameList = ->
-  wipe(onlines)
-  wipe(offlines)
+  wipe onlines
+  wipe offlines
   
   for index = 1, GetNumFriends!
     name, _, _, _, online = GetFriendInfo(index)
@@ -16,7 +16,7 @@ GetNameList = ->
     else
       offlines[name] = true
 
-  if IsInGuild()
+  if IsInGuild!
     for index = 1, GetNumGuildMembers!
       name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(index)
 
@@ -25,6 +25,10 @@ GetNameList = ->
       -- else
       --  offlines[name] = true
 
+  for index = 1, BNGetNumFriends!
+    _, _, _, toonName, _, _, online = BNGetFriendInfo(index)
+    onlines[toonName] = true if online
+
   if GetNumRaidMembers! > 0
     for index = 1, GetNumRaidMembers!
       onlines[GetRaidRosterInfo(index)] = true
@@ -32,12 +36,6 @@ GetNameList = ->
   if GetNumPartyMembers! > 0
     for index = 1, GetNumPartyMembers!
       onlines[UnitName("party" .. index)] = true
-
-  target = UnitName("target")
-  onlines[target] = true if target
-
-  focus = UnitName("focus")
-  onlines[focus] = true if focus
 
 GetPosition = (editbox) ->
   return nil if editbox\GetText! == ""
@@ -69,7 +67,7 @@ CompleteTab = (editbox) ->
   matches = {}
   lowered = word\lower!
 
-  for name in pairs(onlines)
+  for name in pairs onlines
     tinsert(matches, name) if name\lower!\sub(0, #word) == lowered
 
   if IsShiftKeyDown!

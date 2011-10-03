@@ -25,6 +25,12 @@ GetNameList = function()
       end
     end
   end
+  for index = 1, BNGetNumFriends() do
+    local _, _, _, toonName, _, _, online = BNGetFriendInfo(index)
+    if online then
+      onlines[toonName] = true
+    end
+  end
   if GetNumRaidMembers() > 0 then
     for index = 1, GetNumRaidMembers() do
       onlines[GetRaidRosterInfo(index)] = true
@@ -34,14 +40,6 @@ GetNameList = function()
     for index = 1, GetNumPartyMembers() do
       onlines[UnitName("party" .. index)] = true
     end
-  end
-  local target = UnitName("target")
-  if target then
-    onlines[target] = true
-  end
-  local focus = UnitName("focus")
-  if focus then
-    onlines[focus] = true
   end
 end
 local GetPosition
